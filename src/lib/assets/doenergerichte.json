@@ -1,0 +1,38 @@
+[
+    {
+        "id": 1,
+        "name": "Döner Sandwich",
+        "detail": "mit Salat & Soße",
+        "value": "6,50"
+    },
+    {
+        "id": 2,
+        "name": "Döner Sandwich",
+        "detail": "mit Weichkäse, Salat & Soße",
+        "value": "7,00"
+    },
+    {
+        "id": 3,
+        "name": "Döner Dürüm",
+        "detail": "mit Salat & Soße",
+        "value": "7,00"
+    },
+    {
+        "id": 4,
+        "name": "Döner Dürüm",
+        "detail": "mit Weichkäse, Salat & Soße",
+        "value": "7,50"
+    },
+    {
+        "id": 5,
+        "name": "Döner Box",
+        "detail": "mit Pommes & Soße",
+        "value": "6,50"
+    },
+    {
+        "id": 6,
+        "name": "Dönerteller",
+        "detail": "mit Pommes oder Reis, Salat & Soße",
+        "value": "10,50"
+    }
+]
