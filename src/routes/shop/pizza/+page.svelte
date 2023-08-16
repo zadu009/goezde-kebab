@@ -1,9 +1,14 @@
 <script lang="ts">
-	import DonergerichtItem from '$lib/components/DoenergerichtItem.svelte';
+	import pizzas from '$lib/assets/pizza.json';
 	import PizzaItem from '$lib/components/PizzaItem.svelte';
+	let hovered = false;
+	let cartOpened = false;
+	let pizzaname = '';
 
-	export let data: any;
-	$: products = data.items;
+	function load(i) {
+		cartOpened = !cartOpened;
+		pizzaname = pizzas[i].name;
+	}
 </script>
 
 <svelte:head>
@@ -21,12 +26,6 @@
 </div>
 
 <hr />
-
-<div class="flex flex-col py-8 px-3 lg:flex-row md:px-20">
-	<div class="basis-5/6 flex flex-col">
-		<div class="grid grid-cols-1 gap-5">
-			<DonergerichtItem />
-			<PizzaItem />
-		</div>
-	</div>
+<div class="flex flex-col py-8 px-3">
+	<PizzaItem />
 </div>

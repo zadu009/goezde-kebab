@@ -10,6 +10,13 @@ export const load = (async ({ params, locals }) => {
 
 			return JSON.parse(JSON.stringify(productsRecords));
 		}
+		if (params.slug === 'doener') {
+			const productsRecords = await locals.pb.collection('products').getList(1, 50, {
+				sort: '-created'
+			});
+
+			return JSON.parse(JSON.stringify(productsRecords));
+		}
 
 		const category = await locals.pb
 			.collection('categories')

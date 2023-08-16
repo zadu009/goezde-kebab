@@ -1,14 +1,16 @@
 <script lang="ts">
-	import DonergerichtItem from '$lib/components/DoenergerichtItem.svelte';
-	import PizzaItem from '$lib/components/PizzaItem.svelte';
+	import doenergerichte from '$lib/assets/doenergerichte.json';
+	import Doenerdetail from '$lib/components/Doenerdetail.svelte';
+	import DoenergerichtItem from '$lib/components/DoenergerichtItem.svelte';
+	let hovered = false;
+	let cartOpened = false;
+	let doenergerichtname = '';
 
-	export let data: any;
-	$: products = data.items;
+	function load(i) {
+		cartOpened = !cartOpened;
+		doenergerichtname = doenergerichte[i].name;
+	}
 </script>
-
-<svelte:head>
-	<title>Gözde Kebab</title>
-</svelte:head>
 
 <div class="flex justify-center items-center gap-6 m-auto p-5 flex-wrap">
 	<a class="hover:underline underline-offset-4" href="/shop/all">Alle Gerichte</a>
@@ -21,12 +23,6 @@
 </div>
 
 <hr />
-
-<div class="flex flex-col py-8 px-3 lg:flex-row md:px-20">
-	<div class="basis-5/6 flex flex-col">
-		<div class="grid grid-cols-1 gap-5">
-			<DonergerichtItem />
-			<PizzaItem />
-		</div>
-	</div>
+<div class="flex flex-col py-8 px-3">
+	<DoenergerichtItem />
 </div>

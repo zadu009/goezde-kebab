@@ -1,0 +1,104 @@
+[
+    {
+        "id": 20,
+        "name": "Pizza Margherita",
+        "detail": "Käse und Tomatensoße",
+        "value": "4,90"
+    },
+    {
+        "id": 21,
+        "name": "Pizza Funghi",
+        "detail": "Champignons",
+        "value": "5,50"
+    },
+    {
+        "id": 22,
+        "name": "Pizza Salami",
+        "detail": "Salami",
+        "value": "5,50"
+    },
+    {
+        "id": 23,
+        "name": "Pizza Schinken",
+        "detail": "Schinken",
+        "value": "5,50"
+    },
+    {
+        "id": 24,
+        "name": "Pizza Sucuk",
+        "detail": "Sucuk",
+        "value": "6,50"
+    },
+    {
+        "id": 25,
+        "name": "Pizza Tonno",
+        "detail": "Thunfisch & Zwiebel",
+        "value": "6,90"
+    },
+    {
+        "id": 26,
+        "name": "Pizza Hawaii",
+        "detail": "Schinken & Ananas",
+        "value": "6,90"
+    },
+    {
+        "id": 27,
+        "name": "Pizza Spezial",
+        "detail": "Salami, Peperoni & Champignons",
+        "value": "6,50"
+    },
+    {
+        "id": 28,
+        "name": "Pizza Spinat",
+        "detail": "Spinat, Weichkäse & Knoblauch",
+        "value": "6,20"
+    },
+    {
+        "id": 29,
+        "name": "Pizza 4 Jahreszeiten",
+        "detail": "Schinken, Salami, Champignons & Paprika",
+        "value": "6,90"
+    },
+    {
+        "id": 30,
+        "name": "Pizza Mix",
+        "detail": "Salami, Schinken, Peperoniwurst",
+        "value": "7,20"
+    },
+    {
+        "id": 31,
+        "name": "Pizza Italia",
+        "detail": "Salami, Schinken & Champignons",
+        "value": "6,50"
+    },
+    {
+        "id": 32,
+        "name": "Pizza Mafia",
+        "detail": "wird nach dem Backen mit Dönerfleich belegt",
+        "value": "6,90"
+    },
+    {
+        "id": 33,
+        "name": "Pizza Vegetarisch",
+        "detail": "Champignons, Peperoni, Oliven, Zwiebel, Broccoli & Spinat",
+        "value": "6,80"
+    },
+    {
+        "id": 34,
+        "name": "Pizza Döner",
+        "detail": "Dönerfleisch & Zwiebel",
+        "value": "6,90"
+    },
+    {
+        "id": 35,
+        "name": "Pizza Gözde",
+        "detail": "Sucuk, Peperoniwurst, Zwiebel & Ei",
+        "value": "7,50"
+    },
+    {
+        "id": 36,
+        "name": "Pizza Toscana",
+        "detail": "Salami, Schinken, Champignons, Paprika & Zwiebel",
+        "value": "5,50"
+    }
+]
