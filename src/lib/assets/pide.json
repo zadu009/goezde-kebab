@@ -1,0 +1,44 @@
+[
+    {
+        "id": 40,
+        "name": "Pide",
+        "detail": "mit Weichkäse",
+        "value": "5,90"
+    },
+    {
+        "id": 41,
+        "name": "Pide",
+        "detail": "mit Spinat & Weichkäse",
+        "value": "6,20"
+    },
+    {
+        "id": 42,
+        "name": "Pide",
+        "detail": "mit Putenschinken & Ei",
+        "value": "6,20"
+    },
+    {
+        "id": 43,
+        "name": "Pide",
+        "detail": "mit Hackfleisch",
+        "value": "6,50"
+    },
+    {
+        "id": 44,
+        "name": "Pide",
+        "detail": "mit Hackfleisch & Ei",
+        "value": "6,50"
+    },
+    {
+        "id": 45,
+        "name": "Pide",
+        "detail": "mit Sucuk",
+        "value": "6,50"
+    },
+    {
+        "id": 46,
+        "name": "Pide",
+        "detail": "mit Dönerfleisch",
+        "value": "6,50"
+    }
+]

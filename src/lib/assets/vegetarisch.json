@@ -1,0 +1,44 @@
+[
+    {
+        "id": 60,
+        "name": "Vegetarischer Sandwich",
+        "detail": "mit Salat & Soße",
+        "value": "6,50"
+    },
+    {
+        "id": 61,
+        "name": "Vegetarischer Sandwich",
+        "detail": "mit Weichkäse, Salat & Soße",
+        "value": "7,00"
+    },
+    {
+        "id": 62,
+        "name": "Dürüm Vegetarisch",
+        "detail": "mit Salat & Soße",
+        "value": "7,00"
+    },
+    {
+        "id": 63,
+        "name": "Dürüm Vegetarisch",
+        "detail": "mit Weichkäse, Salat & Soße",
+        "value": "7,50"
+    },
+    {
+        "id": 64,
+        "name": "Falafel Sandwich",
+        "detail": "Falafel, Salat & Soße",
+        "value": "6,50"
+    },
+    {
+        "id": 65,
+        "name": "Falafel Dürüm",
+        "detail": "Falafel, Salat & Soße",
+        "value": "6,50"
+    },
+    {
+        "id": 66,
+        "name": "Falafel Teller",
+        "detail": "Falafel, Pommes oder Reis Salat & Soße",
+        "value": "8,50"
+    }
+]

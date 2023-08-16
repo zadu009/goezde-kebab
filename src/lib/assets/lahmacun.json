@@ -1,0 +1,38 @@
+[
+    {
+        "id": 10,
+        "name": "Lahmacun",
+        "detail": "mit Salat & Soße",
+        "value": "3,50"
+    },
+    {
+        "id": 11,
+        "name": "Lahmacun",
+        "detail": "mit Weichkäse, Salat & Soße",
+        "value": "4,00"
+    },
+    {
+        "id": 12,
+        "name": "Lahmacun Dürüm",
+        "detail": "mit Dönerfleisch, Salat & Soße",
+        "value": "4,90"
+    },
+    {
+        "id": 13,
+        "name": "Lahmacun Spezial",
+        "detail": "mit Dönerfleisch, Weichkäse, Salat & Soße",
+        "value": "5,40"
+    },
+    {
+        "id": 5,
+        "name": "Döner Box",
+        "detail": "mit Pommes & Soße",
+        "value": "6,50"
+    },
+    {
+        "id": 6,
+        "name": "Dönerteller",
+        "detail": "mit Pommes oder Reis, Salat & Soße",
+        "value": "10,50"
+    }
+]
