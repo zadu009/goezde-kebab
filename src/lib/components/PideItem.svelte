@@ -8,10 +8,22 @@
 	let data = '';
 
 	function load(i) {
+		let item: WarenkorbArtikel;
+		item = {
+			id: pides[i].id.toString(),
+			name: pides[i].name,
+			slug: '',
+			thumbnail: '',
+			price: parseFloat(pides[i].value.replace(',', '.').replace(' ', '')),
+			salePrice: parseFloat(pides[i].value.replace(',', '.').replace(' ', '')),
+			quantity: 2,
+			extras: [],
+			speziell: '',
+			pizzaextras: [],
+			sossen: []
+		};
 		cartOpened = !cartOpened;
-		doener.name = pides[i].name;
-		doener.id = pides[i].id.toString();
-		doener.price = parseFloat(pides[i].value);
+		doener = item;
 	}
 </script>
 

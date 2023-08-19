@@ -19,7 +19,7 @@
 			quantity: 2,
 			extras: [],
 			speziell: '',
-			pizzaextras: ['df', 'df'],
+			pizzaextras: [],
 			sossen: []
 		};
 		cartOpened = !cartOpened;

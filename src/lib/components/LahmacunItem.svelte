@@ -8,10 +8,22 @@
 	let data = '';
 
 	function load(i) {
+		let item: WarenkorbArtikel;
+		item = {
+			id: lahmacuns[i].id.toString(),
+			name: lahmacuns[i].name,
+			slug: '',
+			thumbnail: '',
+			price: parseFloat(lahmacuns[i].value.replace(',', '.').replace(' ', '')),
+			salePrice: parseFloat(lahmacuns[i].value.replace(',', '.').replace(' ', '')),
+			quantity: 2,
+			extras: [],
+			speziell: '',
+			pizzaextras: [],
+			sossen: []
+		};
 		cartOpened = !cartOpened;
-		doener.name = lahmacuns[i].name;
-		doener.id = lahmacuns[i].id.toString();
-		doener.price = parseFloat(lahmacuns[i].value);
+		doener = item;
 	}
 </script>
 

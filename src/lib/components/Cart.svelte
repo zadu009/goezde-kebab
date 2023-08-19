@@ -105,6 +105,18 @@
 								<p class="text-sm">{extra.doenerextra.name}</p>
 							</div>
 						{/each}
+						{#each cartItem.pizzaextras as pextra}
+							<div>
+								<p style="float:right;" class=" text-gray-500 text-sm">
+									+{Number(pextra.pizzaextra.price).toLocaleString(undefined, {
+										minimumFractionDigits: 2,
+										maximumFractionDigits: 2
+									})}€
+								</p>
+								<p class="text-sm">{pextra.pizzaextra.name}</p>
+							</div>
+						{/each}
+						<p class="font-bold">Spezielle Anweisungen:</p>
 						<p class="text-sm">{cartItem.speziell}</p>
 						<div class="flex gap-3 my-2">
 							<QuantityInput bind:count={cartItem.quantity} mini={true} />

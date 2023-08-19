@@ -32,6 +32,7 @@
 	let checkoutPrice: number;
 	let doenersossen = [''];
 	let extra;
+	let anweisung;
 	let doenerextras = [
 		{ name: 'Extra Käse', selected: false, price: 2.3 },
 		{ name: 'Extra Dönerfleisch', selected: false, price: 3.3 },
@@ -78,7 +79,7 @@
 			quantity: quantity,
 			extras: doenerextrasSelected,
 			sossen: doenersossen,
-			speziell: 'ohne Tomaten',
+			speziell: anweisung,
 			pizzaextras: []
 		};
 
@@ -194,6 +195,7 @@
 				id="about"
 				name="about"
 				rows="3"
+				bind:value={anweisung}
 				placeholder="Beispiel: Ohne Tomaten"
 				class="block rounded-md border-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
 			/>

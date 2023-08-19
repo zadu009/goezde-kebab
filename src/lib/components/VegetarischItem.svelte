@@ -8,10 +8,22 @@
 	let data = '';
 
 	function load(i) {
+		let item: WarenkorbArtikel;
+		item = {
+			id: vegetarische[i].id.toString(),
+			name: vegetarische[i].name,
+			slug: '',
+			thumbnail: '',
+			price: parseFloat(vegetarische[i].value.replace(',', '.').replace(' ', '')),
+			salePrice: parseFloat(vegetarische[i].value.replace(',', '.').replace(' ', '')),
+			quantity: 2,
+			extras: [],
+			speziell: '',
+			pizzaextras: [],
+			sossen: []
+		};
 		cartOpened = !cartOpened;
-		doener.name = vegetarische[i].name;
-		doener.id = vegetarische[i].id.toString();
-		doener.price = parseFloat(vegetarische[i].value);
+		doener = item;
 	}
 </script>
 

@@ -1,13 +1,30 @@
 <script lang="ts">
 	import pizzas from '../assets/pizza.json';
 	import Pizzadetail from '$lib/components/Pizzadetail.svelte';
+	import type { WarenkorbArtikel } from '$lib/stores';
 	let hovered = false;
 	let cartOpened = false;
 	let pizzaname = '';
+	let pizza: WarenkorbArtikel;
+	let data = '';
 
 	function load(i) {
+		let item: WarenkorbArtikel;
+		item = {
+			id: pizzas[i].id.toString(),
+			name: pizzas[i].name,
+			slug: '',
+			thumbnail: '',
+			price: parseFloat(pizzas[i].value.replace(',', '.').replace(' ', '')),
+			salePrice: parseFloat(pizzas[i].value.replace(',', '.').replace(' ', '')),
+			quantity: 2,
+			extras: [],
+			speziell: '',
+			pizzaextras: [],
+			sossen: []
+		};
 		cartOpened = !cartOpened;
-		pizzaname = pizzas[i].name;
+		pizza = item;
 	}
 </script>
 
@@ -45,5 +62,5 @@
 </div>
 
 {#if cartOpened}
-	<Pizzadetail bind:cartOpened bind:pizzaname />
+	<Pizzadetail bind:cartOpened bind:pizza bind:data />
 {/if}

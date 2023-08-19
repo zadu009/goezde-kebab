@@ -52,6 +52,6 @@ export interface WarenkorbArtikel {
 	quantity: number;
 	extras: any;
 	speziell: string;
-	pizzaextras: string[];
+	pizzaextras: any;
 	sossen: string[];
 }

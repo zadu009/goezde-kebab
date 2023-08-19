@@ -1,7 +1,12 @@
 <script lang="ts">
 	import { clickoutside } from '@svelte-put/clickoutside';
 	import { onDestroy } from 'svelte';
-	import { warenkorbArtikelStore, removeFromCart, type WarenkorbArtikel } from '$lib/stores';
+	import {
+		warenkorbArtikelStore,
+		removeFromCart,
+		addToCart,
+		type WarenkorbArtikel
+	} from '$lib/stores';
 	import QuantityInput from '$lib/components/QuantityInput.svelte';
 	import { PUBLIC_POCKETBASE_URL } from '$env/static/public';
 	import { onMount } from 'svelte';
@@ -13,26 +18,43 @@
 	let stripe: any = null;
 
 	export let cartOpened: boolean;
-	export let pizzaname: string;
+	export let data: any;
+	let original_data = data;
+	let quantity = 1;
+	let product = data;
+	export let pizza: WarenkorbArtikel;
 	let backgroundNode: HTMLElement;
-
-	let cartItemsValue: WarenkorbArtikel[];
+	let warenkorbArtikelValue: WarenkorbArtikel[];
 	let checkoutPrice: number;
+	let doenersossen = [''];
+	let anweisung;
+	let pizzaextras = [
+		{ name: 'Extra Salami', selected: false, price: 2.3 },
+		{ name: 'Extra Thunfisch', selected: false, price: 3.3 },
+		{ name: 'Extra Paprika', selected: false, price: 4.3 },
+		{ name: 'Extra Sucuk', selected: false, price: 2.3 },
+		{ name: 'Extra Zwiebel', selected: false, price: 3.3 },
+		{ name: 'Extra Käse', selected: false, price: 4.3 },
+		{ name: 'Extra Peperoni', selected: false, price: 2.3 },
+		{ name: 'Extra Ananas', selected: false, price: 3.3 },
+		{ name: 'Extra Pilze', selected: false, price: 4.3 }
+	];
+	let pizzaextrasSelected = [];
 
 	$: {
 		let value = 0;
-		for (const item of cartItemsValue) {
-			if (item.salePrice === 0) {
+		for (const item of warenkorbArtikelValue) {
+			if (item.price === 0) {
 				value += item.price * item.quantity;
 			} else {
-				value += item.salePrice * item.quantity;
+				value += item.price * item.quantity;
 			}
 		}
 		checkoutPrice = Math.round(value * 100) / 100;
 	}
 
 	const unsubscribe = warenkorbArtikelStore.subscribe((value) => {
-		cartItemsValue = value;
+		warenkorbArtikelValue = value;
 	});
 
 	async function handlePayment() {
@@ -44,12 +66,39 @@
 			cartOpened = false;
 		}
 	}
-
-	onMount(async () => {
-		stripe = await loadStripe(PUBLIC_STRIPE_KEY);
-	});
-
 	onDestroy(unsubscribe);
+
+	function prepareToCart() {
+		let item: WarenkorbArtikel;
+		item = {
+			id: pizza.id,
+			name: pizza.name,
+			slug: product.slug,
+			thumbnail: '',
+			price: pizza.price,
+			salePrice: pizza.salePrice,
+			quantity: quantity,
+			extras: [],
+			sossen: doenersossen,
+			speziell: anweisung,
+			pizzaextras: pizzaextrasSelected
+		};
+
+		addToCart(item);
+		cartOpened = false;
+	}
+
+	function addExtra(pizzaextra) {
+		pizzaextra.selected = !pizzaextra.selected;
+		if (pizzaextra.selected) {
+			pizzaextrasSelected.push({ pizzaextra });
+			pizza.price = pizza.price + pizzaextra.price;
+		}
+		if (!pizzaextra.selected) {
+			pizza.price = pizza.price - pizzaextra.price;
+			pizzaextrasSelected = dopizzaextrasSelectedenerextrasSelected.filter((t) => t != pizzaextra);
+		}
+	}
 </script>
 
 <div
@@ -58,7 +107,7 @@
 	on:clickoutside={() => (cartOpened = false)}
 >
 	<div class="flex items-center justify-between mx-5 py-4">
-		<h1 class="uppercase font-bold text-xl">{pizzaname}</h1>
+		<h1 class="uppercase font-bold text-xl">{pizza.name}</h1>
 
 		<button on:click={() => (cartOpened = !cartOpened)}>
 			<svg
@@ -79,51 +128,63 @@
 	<div class="gap-3 my-2">
 		<div class="gap-3 p-2">
 			<label class="label cursor-pointer">
-				<input type="checkbox" value="true" class="checkbox" />
+				<input
+					type="checkbox"
+					bind:group={doenersossen}
+					value={'Mit Knoblauchsoße'}
+					class="checkbox"
+				/>
 				<span class="label-text">Mit Knoblauchsoße</span>
 			</label>
 		</div>
 		<div class="gap-3 p-2">
 			<label class="label cursor-pointer">
-				<input type="checkbox" value="true" class="checkbox" />
+				<input
+					type="checkbox"
+					bind:group={doenersossen}
+					value={'Mit Scharfer Soße'}
+					class="checkbox"
+				/>
 				<span class="label-text">Mit scharfer Soße</span>
 			</label>
 		</div>
 		<div class="gap-3 p-2">
 			<label class="label cursor-pointer">
-				<input type="checkbox" value="true" class="checkbox" />
+				<input
+					type="checkbox"
+					bind:group={doenersossen}
+					value={'Mit Joghurtsoße'}
+					class="checkbox"
+				/>
 				<span class="label-text">Mit Joghurtsoße</span>
 			</label>
 		</div>
+
+		{#each pizzaextras as pizzaextra}
+			<div class="gap-3 p-2">
+				<label class="label cursor-pointer">
+					<input
+						type="checkbox"
+						id={pizzaextra.name}
+						bind:checked={pizzaextra.selected}
+						on:click={() => addExtra(pizzaextra)}
+					/>
+					<label for={pizzaextra.name}>{pizzaextra.name}</label>
+					<p
+						style="float:right;"
+						class=" text-sm text-gray-500 truncate dark:text-gray-400 text-left"
+					>
+						+{Number(pizzaextra.price).toLocaleString(undefined, {
+							minimumFractionDigits: 2,
+							maximumFractionDigits: 2
+						})}€
+					</p>
+				</label>
+			</div>
+		{/each}
+
 		<div class="gap-3 p-2">
-			<label class="label cursor-pointer">
-				<input type="checkbox" value="true" class="checkbox" />
-				<span class="label-text">Extra Käse&nbsp;&nbsp;</span>
-				<p style="float:right;" class=" text-gray-500 truncate dark:text-gray-400 text-left">
-					+0,50 €
-				</p>
-			</label>
-		</div>
-		<div class="gap-3 p-2">
-			<label class="label cursor-pointer">
-				<input type="checkbox" value="true" class="checkbox" />
-				<span class="label-text">Extra Dönerfleisch</span>
-				<p style="float:right;" class=" text-gray-500 truncate dark:text-gray-400 text-left">
-					+1,00 €
-				</p>
-			</label>
-		</div>
-		<div class="gap-3 p-2">
-			<label class="label cursor-pointer">
-				<input type="checkbox" value="true" class="checkbox" />
-				<span class="label-text">Extra 1 Stück hausgemachtes Brot&nbsp;&nbsp;</span>
-				<p style="float:right;" class=" text-gray-500 truncate dark:text-gray-400 text-left">
-					+1,00 €
-				</p>
-			</label>
-		</div>
-		<div class="gap-3 p-2">
-			Menge <QuantityInput mini={true} />
+			Menge <QuantityInput mini={true} bind:count={quantity} />
 		</div>
 	</div>
 	<div class="p-2">
@@ -135,67 +196,19 @@
 				id="about"
 				name="about"
 				rows="3"
+				bind:value={anweisung}
 				placeholder="Beispiel: Ohne Tomaten"
 				class="block rounded-md border-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
 			/>
 		</div>
 	</div>
-	<div class="flex-col overflow-y-auto">
-		{#each $warenkorbArtikelStore as cartItem}
-			<div class="flex mx-5 mb-5 gap-5">
-				<img
-					src="{PUBLIC_POCKETBASE_URL}/api/files/products/{cartItem.id}/{cartItem.thumbnail}"
-					width="92"
-					height="92"
-					alt="{cartItem.name} thumbnail"
-				/>
-
-				<div>
-					<a href="/products/{cartItem.slug}" target="_self">{cartItem.name}</a>
-					<div class="flex gap-3 my-2">
-						<QuantityInput bind:count={cartItem.quantity} mini={true} />
-						<button
-							on:click={() => removeFromCart(cartItem.slug)}
-							class="font-light hover:underline"
-						>
-							Entfernen
-						</button>
-					</div>
-				</div>
-
-				<div class="flex flex-col grow">
-					{#if cartItem.salePrice === 0}
-						<p class="text-right">
-							{Number(cartItem.price * cartItem.quantity).toLocaleString(undefined, {
-								minimumFractionDigits: 2,
-								maximumFractionDigits: 2
-							})}€
-						</p>
-					{:else}
-						<p class="text-right text-red-600">
-							{Number(cartItem.salePrice * cartItem.quantity).toLocaleString(undefined, {
-								minimumFractionDigits: 2,
-								maximumFractionDigits: 2
-							})}€
-						</p>
-						<p class="text-right text-gray-600 line-through">
-							{Number(cartItem.price * cartItem.quantity).toLocaleString(undefined, {
-								minimumFractionDigits: 2,
-								maximumFractionDigits: 2
-							})}€
-						</p>
-					{/if}
-				</div>
-			</div>
-		{/each}
-	</div>
 
 	<div class="px-10 py-10 grow flex items-end">
 		<button
 			class="w-full h-12 text-black font-bold transition-colors duration-150 bg-yellow-300 focus:shadow hover:bg-yellow-500"
-			on:click={() => handlePayment()}
+			on:click={() => prepareToCart()}
 		>
-			In den Warenkorb {checkoutPrice.toLocaleString(undefined, {
+			In den Warenkorb {(pizza.price * quantity).toLocaleString(undefined, {
 				minimumFractionDigits: 2,
 				maximumFractionDigits: 2
 			})}€
