@@ -9,7 +9,7 @@
 </script>
 
 <svelte:head>
-	<title>E-Handel</title>
+	<title>Goezde-Kebab</title>
 </svelte:head>
 
 {#if banners.length !== 0}
@@ -24,23 +24,17 @@
 					Gözde Kebab Abholservice
 				</h1>
 				<p class="mt-4 text-lg lg:pl-3">
-					Vapes sind kein Hype, sie sind eine Passion! Wenn du schon auf den Geschmack von Einweg
-					E-Zigaretten gekommen bist, dann fühlst du dich bei uns wie im E-Shisha Wunderland! Denn
-					wir führen ein breites Sortiment an Vapes mit als auch ohne Nikotin und erweitern dieses
-					für euch stetig!
+					Wir von Gözde Kebab bieten Gerichte von hervorragender Qualität und laden Sie herzlich
+					ein, unsere köstliche Küche kennenzulernen.
 				</p>
 			</div>
 			<div class="mb-6 lg:mb-0 flex flex-col justify-center">
 				<p class="text-gray-500 text-lg">
-					Eine Einweg E-Zigarette ist eine Art von elektronischer Zigarette, die nicht nachgefüllt
-					werden kann und in der Regel nur für den einmaligen Gebrauch gedacht ist. Sie besteht aus
-					einem Akku, einem Verdampfer und einer vorinstallierten Kartusche mit Liquid. Sobald das
-					Liquid aufgebraucht ist oder der Akku leer wird, muss die gesamte Einheit entsorgt werden.
-					Diese Art von E-Zigaretten sind oft sehr einfach zu bedienen und erfordern keine
-					Vorkenntnisse im Umgang mit elektronischen Geräten oder dem Nachfüllen von Liquids.
-					Allerdings können sie auch teurer sein als wiederverwendbare Modelle auf lange Sicht, da
-					man immer wieder neue kaufen muss anstatt nur einzelne Komponenten auszutauschen oder
-					nachzufüllen.
+					Der Schlüssel zu unserem Erfolg ist einfach: Wir bieten hochwertige Gerichte, die stets
+					den Gaumen erfreuen. Wir sind stolz darauf, unseren Kunden schmackhafte und authentische
+					Gerichte zu servieren. zB.: Pizza, Fast Food, Türkisch . Genießen Sie wahre Gaumenfreuden.
+					Wählen Sie dazu ein Getränk aus. Und vor allem: Entspannen Sie sich! Wir bedanken uns
+					herzlich bei Ihnen für Ihre fortwährende Unterstützung.
 				</p>
 			</div>
 		</div>

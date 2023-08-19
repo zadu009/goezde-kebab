@@ -18,22 +18,6 @@
 			<div class="flex items-center gap-6 m-auto">
 				<a class="hover:underline underline-offset-4" href="/shop/all">Menü</a>
 				<a class="hover:underline underline-offset-4" href="#!">Kontakt</a>
-				{#if $currentUser}
-					<form
-						method="POST"
-						action="/logout"
-						use:enhance={() => {
-							return async ({ result }) => {
-								pb.authStore.clear();
-								await applyAction(result);
-							};
-						}}
-					>
-						<button>Log out</button>
-					</form>
-				{:else}
-					<a class="hover:underline underline-offset-4" href="/login">Login</a>
-				{/if}
 			</div>
 			<div class="flex mx-5 gap-6">
 				<button class="relative" aria-label="Cart" on:click={() => (cartOpened = !cartOpened)}>

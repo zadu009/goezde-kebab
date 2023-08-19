@@ -4,6 +4,8 @@
 
 	import { browser } from '$app/environment';
 	import { PUBLIC_POCKETBASE_URL } from '$env/static/public';
+	import Doener from '$lib/assets/doener.jpg';
+	import Pizza from '$lib/assets/pizza.jpg';
 
 	export let banners: any;
 
@@ -32,36 +34,30 @@
 					/>
 				{/each}
 			</div>
-
-			{#each banners as banner, imageIndex (banner)}
-				<div class="relative">
-					{#if loaded.includes(imageIndex)}
-						<img
-							src="{PUBLIC_POCKETBASE_URL}/api/files/{banner.collectionName}/{banner.id}/{banner.image}"
-							class="w-full object-cover aspect-[2/3] md:aspect-[16/5]"
-							width="2000"
-							height="1000"
-							draggable="false"
-							alt={banner.heading}
-						/>
-					{/if}
-					<div
-						class="absolute inset-0 flex flex-col justify-center gap-5 mx-0 items-center md:mx-16 md:items-start"
+			<div class="relative">
+				<img
+					src={Doener}
+					class="w-full object-cover aspect-[2/3] md:aspect-[16/5]"
+					width="2000"
+					height="1000"
+					draggable="false"
+				/>
+				<div
+					class="absolute inset-0 flex flex-col justify-center gap-5 mx-0 items-center md:mx-16 md:items-start"
+				>
+					<h1
+						class=" text-5xl font-extrabold text-white uppercase center text-center md:text-left md:text-7xl"
 					>
-						<h1
-							class=" text-5xl font-extrabold text-white uppercase center text-center md:text-left md:text-7xl"
-						>
-							{banner.heading}
-						</h1>
-						<a
-							class="bg-yellow-300 hover:bg-yellow-500 text-black font-bold py-2 px-4 rounded"
-							href={banner.link}
-						>
-							SEE PRODUCT
-						</a>
-					</div>
+						Gözde Kebab
+					</h1>
+					<a
+						class="bg-yellow-300 hover:bg-yellow-500 text-black font-bold py-2 px-4 rounded"
+						href="/shop/all"
+					>
+						Zum Menü
+					</a>
 				</div>
-			{/each}
+			</div>
 		</Carousel>
 	{/if}
 </div>
