@@ -42,10 +42,10 @@
 	$: {
 		let value = 0;
 		for (const item of warenkorbArtikelValue) {
-			if (item.salePrice === 0) {
+			if (item.price === 0) {
 				value += item.price * item.quantity;
 			} else {
-				value += item.salePrice * item.quantity;
+				value += item.price * item.quantity;
 			}
 		}
 		checkoutPrice = Math.round(value * 100) / 100;
@@ -83,6 +83,7 @@
 		};
 
 		addToCart(item);
+		cartOpened = false;
 	}
 
 	function addExtra(doenerextra) {
@@ -181,7 +182,7 @@
 		{/each}
 
 		<div class="gap-3 p-2">
-			Menge <QuantityInput mini={true} />
+			Menge <QuantityInput mini={true} bind:count={quantity} />
 		</div>
 	</div>
 	<div class="p-2">
@@ -204,7 +205,7 @@
 			class="w-full h-12 text-black font-bold transition-colors duration-150 bg-yellow-300 focus:shadow hover:bg-yellow-500"
 			on:click={() => prepareToCart()}
 		>
-			In den Warenkorb {doener.price.toLocaleString(undefined, {
+			In den Warenkorb {(doener.price * quantity).toLocaleString(undefined, {
 				minimumFractionDigits: 2,
 				maximumFractionDigits: 2
 			})}€
