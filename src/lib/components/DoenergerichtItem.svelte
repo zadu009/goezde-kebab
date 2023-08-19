@@ -1,13 +1,29 @@
 <script lang="ts">
 	import doenergerichte from '../assets/doenergerichte.json';
 	import Doenerdetail from '$lib/components/Doenerdetail.svelte';
+	import type { WarenkorbArtikel, warenkorbArtikelStore } from '$lib/stores';
 	let hovered = false;
 	let cartOpened = false;
-	let doenergerichtname = '';
+	let doener: WarenkorbArtikel;
+	let data = '';
 
 	function load(i) {
+		let item: WarenkorbArtikel;
+		item = {
+			id: doenergerichte[i].id.toString(),
+			name: doenergerichte[i].name,
+			slug: '',
+			thumbnail: '',
+			price: parseFloat(doenergerichte[i].value.replace(',', '.').replace(' ', '')),
+			salePrice: parseFloat(doenergerichte[i].value.replace(',', '.').replace(' ', '')),
+			quantity: 2,
+			extras: [],
+			speziell: '',
+			pizzaextras: ['df', 'df'],
+			sossen: []
+		};
 		cartOpened = !cartOpened;
-		doenergerichtname = doenergerichte[i].name;
+		doener = item;
 	}
 </script>
 
@@ -28,10 +44,7 @@
 						<p class="text-sm font-medium text-gray-900 truncate text-left">
 							{doenergericht.id}- {doenergericht.name}
 						</p>
-						<p
-							style="float:left;"
-							class="text-sm text-gray-500 truncate dark:text-gray-400 text-left"
-						>
+						<p style="float:left;" class="flex text-sm text-gray-500 text-left">
 							{doenergericht.detail}
 						</p>
 						<div class="text-base font-semibold text-gray-900 text-right">
@@ -45,5 +58,5 @@
 </div>
 
 {#if cartOpened}
-	<Doenerdetail bind:cartOpened bind:doenergerichtname />
+	<Doenerdetail bind:cartOpened bind:doener bind:data />
 {/if}

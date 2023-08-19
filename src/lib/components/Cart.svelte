@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { clickoutside } from '@svelte-put/clickoutside';
 	import { onDestroy } from 'svelte';
-	import { cartItemsStore, removeFromCart, type CartItem } from '$lib/stores';
+	import { warenkorbArtikelStore, removeFromCart, type WarenkorbArtikel } from '$lib/stores';
 	import QuantityInput from '$lib/components/QuantityInput.svelte';
 	import { PUBLIC_POCKETBASE_URL } from '$env/static/public';
 	import { onMount } from 'svelte';
@@ -15,7 +15,7 @@
 	export let cartOpened: boolean;
 	let backgroundNode: HTMLElement;
 
-	let cartItemsValue: CartItem[];
+	let cartItemsValue: WarenkorbArtikel[];
 	let checkoutPrice: number;
 
 	$: {
@@ -30,7 +30,7 @@
 		checkoutPrice = Math.round(value * 100) / 100;
 	}
 
-	const unsubscribe = cartItemsStore.subscribe((value) => {
+	const unsubscribe = warenkorbArtikelStore.subscribe((value) => {
 		cartItemsValue = value;
 	});
 
@@ -80,23 +80,35 @@
 
 	{#if cartItemsValue.length !== 0}
 		<div class="flex-col overflow-y-auto">
-			{#each $cartItemsStore as cartItem}
+			{#each $warenkorbArtikelStore as cartItem}
 				<div class="flex mx-5 mb-5 gap-5">
-					<img
+					<!--img
 						src="{PUBLIC_POCKETBASE_URL}/api/files/products/{cartItem.id}/{cartItem.thumbnail}"
 						width="92"
 						height="92"
 						alt="{cartItem.name} thumbnail"
-					/>
+					/-->
 
 					<div>
 						<a href="/products/{cartItem.slug}" target="_self">{cartItem.name}</a>
+						{#each cartItem.sossen as sosse}
+							<p class="text-sm">{sosse}</p>
+						{/each}
+						{#each cartItem.extras as extra}
+							<div>
+								<p style="float:right;" class=" text-gray-500 text-sm">
+									+{Number(extra.doenerextra.price).toLocaleString(undefined, {
+										minimumFractionDigits: 2,
+										maximumFractionDigits: 2
+									})}€
+								</p>
+								<p class="text-sm">{extra.doenerextra.name}</p>
+							</div>
+						{/each}
+						<p class="text-sm">{cartItem.speziell}</p>
 						<div class="flex gap-3 my-2">
 							<QuantityInput bind:count={cartItem.quantity} mini={true} />
-							<button
-								on:click={() => removeFromCart(cartItem.slug)}
-								class="font-light hover:underline"
-							>
+							<button on:click={() => removeFromCart(cartItem)} class="font-light hover:underline">
 								Entfernen
 							</button>
 						</div>
@@ -111,13 +123,7 @@
 								})}€
 							</p>
 						{:else}
-							<p class="text-right text-red-600">
-								{Number(cartItem.salePrice * cartItem.quantity).toLocaleString(undefined, {
-									minimumFractionDigits: 2,
-									maximumFractionDigits: 2
-								})}€
-							</p>
-							<p class="text-right text-gray-600 line-through">
+							<p class="text-right text-600">
 								{Number(cartItem.price * cartItem.quantity).toLocaleString(undefined, {
 									minimumFractionDigits: 2,
 									maximumFractionDigits: 2

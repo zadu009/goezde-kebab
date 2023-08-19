@@ -1,13 +1,17 @@
 <script lang="ts">
 	import pides from '../assets/pide.json';
 	import Doenerdetail from '$lib/components/Doenerdetail.svelte';
+	import type { WarenkorbArtikel, warenkorbArtikelStore } from '$lib/stores';
 	let hovered = false;
 	let cartOpened = false;
-	let doenergerichtname = '';
+	let doener: WarenkorbArtikel;
+	let data = '';
 
 	function load(i) {
 		cartOpened = !cartOpened;
-		doenergerichtname = pides[i].name;
+		doener.name = pides[i].name;
+		doener.id = pides[i].id.toString();
+		doener.price = parseFloat(pides[i].value);
 	}
 </script>
 
@@ -45,5 +49,5 @@
 </div>
 
 {#if cartOpened}
-	<Doenerdetail bind:cartOpened bind:doenergerichtname />
+	<Doenerdetail bind:cartOpened bind:doener bind:data />
 {/if}

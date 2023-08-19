@@ -1,13 +1,17 @@
 <script lang="ts">
 	import lahmacuns from '../assets/lahmacun.json';
 	import Doenerdetail from '$lib/components/Doenerdetail.svelte';
+	import type { WarenkorbArtikel, warenkorbArtikelStore } from '$lib/stores';
 	let hovered = false;
 	let cartOpened = false;
-	let doenergerichtname = '';
+	let doener: WarenkorbArtikel;
+	let data = '';
 
 	function load(i) {
 		cartOpened = !cartOpened;
-		doenergerichtname = lahmacuns[i].name;
+		doener.name = lahmacuns[i].name;
+		doener.id = lahmacuns[i].id.toString();
+		doener.price = parseFloat(lahmacuns[i].value);
 	}
 </script>
 
@@ -45,5 +49,5 @@
 </div>
 
 {#if cartOpened}
-	<Doenerdetail bind:cartOpened bind:doenergerichtname />
+	<Doenerdetail bind:cartOpened bind:doener bind:data />
 {/if}

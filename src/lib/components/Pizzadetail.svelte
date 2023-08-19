@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { clickoutside } from '@svelte-put/clickoutside';
 	import { onDestroy } from 'svelte';
-	import { cartItemsStore, removeFromCart, type CartItem } from '$lib/stores';
+	import { warenkorbArtikelStore, removeFromCart, type WarenkorbArtikel } from '$lib/stores';
 	import QuantityInput from '$lib/components/QuantityInput.svelte';
 	import { PUBLIC_POCKETBASE_URL } from '$env/static/public';
 	import { onMount } from 'svelte';
@@ -16,7 +16,7 @@
 	export let pizzaname: string;
 	let backgroundNode: HTMLElement;
 
-	let cartItemsValue: CartItem[];
+	let cartItemsValue: WarenkorbArtikel[];
 	let checkoutPrice: number;
 
 	$: {
@@ -31,7 +31,7 @@
 		checkoutPrice = Math.round(value * 100) / 100;
 	}
 
-	const unsubscribe = cartItemsStore.subscribe((value) => {
+	const unsubscribe = warenkorbArtikelStore.subscribe((value) => {
 		cartItemsValue = value;
 	});
 
@@ -141,7 +141,7 @@
 		</div>
 	</div>
 	<div class="flex-col overflow-y-auto">
-		{#each $cartItemsStore as cartItem}
+		{#each $warenkorbArtikelStore as cartItem}
 			<div class="flex mx-5 mb-5 gap-5">
 				<img
 					src="{PUBLIC_POCKETBASE_URL}/api/files/products/{cartItem.id}/{cartItem.thumbnail}"

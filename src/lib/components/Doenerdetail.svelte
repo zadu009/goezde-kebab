@@ -1,7 +1,12 @@
 <script lang="ts">
 	import { clickoutside } from '@svelte-put/clickoutside';
 	import { onDestroy } from 'svelte';
-	import { cartItemsStore, removeFromCart, type CartItem } from '$lib/stores';
+	import {
+		warenkorbArtikelStore,
+		removeFromCart,
+		addToCart,
+		type WarenkorbArtikel
+	} from '$lib/stores';
 	import QuantityInput from '$lib/components/QuantityInput.svelte';
 	import { PUBLIC_POCKETBASE_URL } from '$env/static/public';
 	import { onMount } from 'svelte';
@@ -13,15 +18,30 @@
 	let stripe: any = null;
 
 	export let cartOpened: boolean;
-	export let doenergerichtname: string;
+	export let data: any;
+	let original_data = data;
+	let quantity = 1;
+	let product = data;
+	export let doener: WarenkorbArtikel;
 	let backgroundNode: HTMLElement;
-
-	let cartItemsValue: CartItem[];
+	let extraKaese = false;
+	let extraDoenerfleisch = false;
+	let extraBrot = false;
+	let returned;
+	let warenkorbArtikelValue: WarenkorbArtikel[];
 	let checkoutPrice: number;
+	let doenersossen = [''];
+	let extra;
+	let doenerextras = [
+		{ name: 'Extra Käse', selected: false, price: 2.3 },
+		{ name: 'Extra Dönerfleisch', selected: false, price: 3.3 },
+		{ name: 'Extra 1 Stück hausgemachtes Brot', selected: false, price: 4.3 }
+	];
+	let doenerextrasSelected = [];
 
 	$: {
 		let value = 0;
-		for (const item of cartItemsValue) {
+		for (const item of warenkorbArtikelValue) {
 			if (item.salePrice === 0) {
 				value += item.price * item.quantity;
 			} else {
@@ -31,8 +51,8 @@
 		checkoutPrice = Math.round(value * 100) / 100;
 	}
 
-	const unsubscribe = cartItemsStore.subscribe((value) => {
-		cartItemsValue = value;
+	const unsubscribe = warenkorbArtikelStore.subscribe((value) => {
+		warenkorbArtikelValue = value;
 	});
 
 	async function handlePayment() {
@@ -44,12 +64,38 @@
 			cartOpened = false;
 		}
 	}
-
-	onMount(async () => {
-		stripe = await loadStripe(PUBLIC_STRIPE_KEY);
-	});
-
 	onDestroy(unsubscribe);
+
+	function prepareToCart() {
+		let item: WarenkorbArtikel;
+		item = {
+			id: doener.id,
+			name: doener.name,
+			slug: product.slug,
+			thumbnail: '',
+			price: doener.price,
+			salePrice: doener.salePrice,
+			quantity: quantity,
+			extras: doenerextrasSelected,
+			sossen: doenersossen,
+			speziell: 'ohne Tomaten',
+			pizzaextras: []
+		};
+
+		addToCart(item);
+	}
+
+	function addExtra(doenerextra) {
+		doenerextra.selected = !doenerextra.selected;
+		if (doenerextra.selected) {
+			doenerextrasSelected.push({ doenerextra });
+			doener.price = doener.price + doenerextra.price;
+		}
+		if (!doenerextra.selected) {
+			doener.price = doener.price - doenerextra.price;
+			doenerextrasSelected = doenerextrasSelected.filter((t) => t != doenerextra);
+		}
+	}
 </script>
 
 <div
@@ -58,7 +104,7 @@
 	on:clickoutside={() => (cartOpened = false)}
 >
 	<div class="flex items-center justify-between mx-5 py-4">
-		<h1 class="uppercase font-bold text-xl">{doenergerichtname}</h1>
+		<h1 class="uppercase font-bold text-xl">{doener.name}</h1>
 
 		<button on:click={() => (cartOpened = !cartOpened)}>
 			<svg
@@ -79,49 +125,61 @@
 	<div class="gap-3 my-2">
 		<div class="gap-3 p-2">
 			<label class="label cursor-pointer">
-				<input type="checkbox" value="true" class="checkbox" />
+				<input
+					type="checkbox"
+					bind:group={doenersossen}
+					value={'Mit Knoblauchsoße'}
+					class="checkbox"
+				/>
 				<span class="label-text">Mit Knoblauchsoße</span>
 			</label>
 		</div>
 		<div class="gap-3 p-2">
 			<label class="label cursor-pointer">
-				<input type="checkbox" value="true" class="checkbox" />
+				<input
+					type="checkbox"
+					bind:group={doenersossen}
+					value={'Mit Scharfer Soße'}
+					class="checkbox"
+				/>
 				<span class="label-text">Mit scharfer Soße</span>
 			</label>
 		</div>
 		<div class="gap-3 p-2">
 			<label class="label cursor-pointer">
-				<input type="checkbox" value="true" class="checkbox" />
+				<input
+					type="checkbox"
+					bind:group={doenersossen}
+					value={'Mit Joghurtsoße'}
+					class="checkbox"
+				/>
 				<span class="label-text">Mit Joghurtsoße</span>
 			</label>
 		</div>
-		<div class="gap-3 p-2">
-			<label class="label cursor-pointer">
-				<input type="checkbox" value="true" class="checkbox" />
-				<span class="label-text">Extra Käse&nbsp;&nbsp;</span>
-				<p style="float:right;" class=" text-gray-500 truncate dark:text-gray-400 text-left">
-					+0,50 €
-				</p>
-			</label>
-		</div>
-		<div class="gap-3 p-2">
-			<label class="label cursor-pointer">
-				<input type="checkbox" value="true" class="checkbox" />
-				<span class="label-text">Extra Dönerfleisch</span>
-				<p style="float:right;" class=" text-gray-500 truncate dark:text-gray-400 text-left">
-					+1,00 €
-				</p>
-			</label>
-		</div>
-		<div class="gap-3 p-2">
-			<label class="label cursor-pointer">
-				<input type="checkbox" value="true" class="checkbox" />
-				<span class="label-text">Extra 1 Stück hausgemachtes Brot&nbsp;&nbsp;</span>
-				<p style="float:right;" class=" text-gray-500 truncate dark:text-gray-400 text-left">
-					+1,00 €
-				</p>
-			</label>
-		</div>
+
+		{#each doenerextras as doenerextra}
+			<div class="gap-3 p-2">
+				<label class="label cursor-pointer">
+					<input
+						type="checkbox"
+						id={doenerextra.name}
+						bind:checked={doenerextra.selected}
+						on:click={() => addExtra(doenerextra)}
+					/>
+					<label for={doenerextra.name}>{doenerextra.name}</label>
+					<p
+						style="float:right;"
+						class=" text-sm text-gray-500 truncate dark:text-gray-400 text-left"
+					>
+						+{Number(doenerextra.price).toLocaleString(undefined, {
+							minimumFractionDigits: 2,
+							maximumFractionDigits: 2
+						})}€
+					</p>
+				</label>
+			</div>
+		{/each}
+
 		<div class="gap-3 p-2">
 			Menge <QuantityInput mini={true} />
 		</div>
@@ -140,62 +198,13 @@
 			/>
 		</div>
 	</div>
-	<div class="flex-col overflow-y-auto">
-		{#each $cartItemsStore as cartItem}
-			<div class="flex mx-5 mb-5 gap-5">
-				<img
-					src="{PUBLIC_POCKETBASE_URL}/api/files/products/{cartItem.id}/{cartItem.thumbnail}"
-					width="92"
-					height="92"
-					alt="{cartItem.name} thumbnail"
-				/>
-
-				<div>
-					<a href="/products/{cartItem.slug}" target="_self">{cartItem.name}</a>
-					<div class="flex gap-3 my-2">
-						<QuantityInput bind:count={cartItem.quantity} mini={true} />
-						<button
-							on:click={() => removeFromCart(cartItem.slug)}
-							class="font-light hover:underline"
-						>
-							Entfernen
-						</button>
-					</div>
-				</div>
-
-				<div class="flex flex-col grow">
-					{#if cartItem.salePrice === 0}
-						<p class="text-right">
-							{Number(cartItem.price * cartItem.quantity).toLocaleString(undefined, {
-								minimumFractionDigits: 2,
-								maximumFractionDigits: 2
-							})}€
-						</p>
-					{:else}
-						<p class="text-right text-red-600">
-							{Number(cartItem.salePrice * cartItem.quantity).toLocaleString(undefined, {
-								minimumFractionDigits: 2,
-								maximumFractionDigits: 2
-							})}€
-						</p>
-						<p class="text-right text-gray-600 line-through">
-							{Number(cartItem.price * cartItem.quantity).toLocaleString(undefined, {
-								minimumFractionDigits: 2,
-								maximumFractionDigits: 2
-							})}€
-						</p>
-					{/if}
-				</div>
-			</div>
-		{/each}
-	</div>
 
 	<div class="px-10 py-10 grow flex items-end">
 		<button
 			class="w-full h-12 text-black font-bold transition-colors duration-150 bg-yellow-300 focus:shadow hover:bg-yellow-500"
-			on:click={() => handlePayment()}
+			on:click={() => prepareToCart()}
 		>
-			In den Warenkorb {checkoutPrice.toLocaleString(undefined, {
+			In den Warenkorb {doener.price.toLocaleString(undefined, {
 				minimumFractionDigits: 2,
 				maximumFractionDigits: 2
 			})}€

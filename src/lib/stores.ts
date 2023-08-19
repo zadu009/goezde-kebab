@@ -2,53 +2,47 @@ import { writable } from 'svelte/store';
 import { browser } from '$app/environment';
 
 
-export const cartItemsStore = writable(getStorePersistance('cartItemsStore'));
+export const warenkorbArtikelStore = writable(getStorePersistance('warenkorbArtikelStore'));
 
-cartItemsStore.subscribe((val) => {
+warenkorbArtikelStore.subscribe((val) => {
 	if (browser) {
 		localStorage.setItem('cartItemsStore', JSON.stringify(val));
 	}
 });
 
-export function addToCart(newItem: CartItem) {
-	cartItemsStore.update((oldItems) => {
-		const foundIndex = oldItems.findIndex((item) => item.slug === newItem.slug);
-
-		if (foundIndex !== -1) {
-			oldItems[foundIndex].quantity += newItem.quantity;
-			return oldItems;
-		} else {
+export function addToCart(newItem: WarenkorbArtikel) {
+	warenkorbArtikelStore.update((oldItems) => {
 			return [...oldItems, newItem];
-		}
 	});
 }
 
-export function removeFromCart(slug: string) {
-	cartItemsStore.update((oldItems) => {
-		oldItems = oldItems.filter((item) => item.slug !== slug);
+export function removeFromCart(newItem: WarenkorbArtikel) {
+	warenkorbArtikelStore.update((oldItems) => {
+		oldItems = oldItems.filter((item) => item !== newItem);
 		return oldItems;
 	});
 }
 
 export function emptyCart() {
-	cartItemsStore.set([]);
+	warenkorbArtikelStore.set([]);
 }
 
-function getStorePersistance(key: string): CartItem[] {
+function getStorePersistance(key: string): WarenkorbArtikel[] {
 	if (!browser) {
-		return [] as CartItem[];
+		return [] as WarenkorbArtikel[];
 	}
 
-	const storedItems: CartItem[] = JSON.parse(localStorage.getItem(key) || '{}');
+	const storedItems: WarenkorbArtikel[] = JSON.parse(localStorage.getItem(key) || '{}');
 
 	if (Object.keys(storedItems).length <= 0) {
-		return [] as CartItem[];
+		return [] as WarenkorbArtikel[];
 	} else {
 		return storedItems;
 	}
 }
 
-export interface CartItem {
+
+export interface WarenkorbArtikel {
 	id: string;
 	name: string;
 	slug: string;
@@ -56,4 +50,8 @@ export interface CartItem {
 	salePrice: number;
 	thumbnail: string;
 	quantity: number;
+	extras: any;
+	speziell: string;
+	pizzaextras: string[];
+	sossen: string[];
 }
