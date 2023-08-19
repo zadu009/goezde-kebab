@@ -21,10 +21,10 @@
 	$: {
 		let value = 0;
 		for (const item of cartItemsValue) {
-			if (item.salePrice === 0) {
+			if (item.price === 0) {
 				value += item.price * item.quantity;
 			} else {
-				value += item.salePrice * item.quantity;
+				value += item.price * item.quantity;
 			}
 		}
 		checkoutPrice = Math.round(value * 100) / 100;
