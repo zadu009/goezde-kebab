@@ -1,13 +1,4 @@
 <script lang="ts">
-	import { page } from '$app/stores';
-	import { emptyCart, type CartItem } from '$lib/stores';
-	import { cartItemsStore } from '$lib/stores';
-	import { onMount } from 'svelte';
-	const url = $page.url;
-	onMount(() => {
-		emptyCart();
-		return () => console.log('On destroy...');
-	});
 </script>
 
 <svelte:head>
