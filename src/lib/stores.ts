@@ -6,7 +6,7 @@ export const warenkorbArtikelStore = writable(getStorePersistance('warenkorbArti
 
 warenkorbArtikelStore.subscribe((val) => {
 	if (browser) {
-		localStorage.setItem('cartItemsStore', JSON.stringify(val));
+		localStorage.setItem('warenkorbArtikelStore', JSON.stringify(val));
 	}
 });
 

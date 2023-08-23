@@ -32,7 +32,7 @@
 	let checkoutPrice: number;
 	let doenersossen = [''];
 	let extra;
-	let anweisung;
+	let anweisung = '';
 	let doenerextras = [
 		{ name: 'Extra Käse', selected: false, price: 2.3 },
 		{ name: 'Extra Dönerfleisch', selected: false, price: 3.3 },

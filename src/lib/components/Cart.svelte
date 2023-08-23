@@ -43,11 +43,6 @@
 			cartOpened = false;
 		}
 	}
-
-	onMount(async () => {
-		stripe = await loadStripe(PUBLIC_STRIPE_KEY);
-	});
-
 	onDestroy(unsubscribe);
 </script>
 
@@ -82,13 +77,6 @@
 		<div class="flex-col overflow-y-auto">
 			{#each $warenkorbArtikelStore as cartItem}
 				<div class="flex mx-5 mb-5 gap-5">
-					<!--img
-						src="{PUBLIC_POCKETBASE_URL}/api/files/products/{cartItem.id}/{cartItem.thumbnail}"
-						width="92"
-						height="92"
-						alt="{cartItem.name} thumbnail"
-					/-->
-
 					<div>
 						<a href="/products/{cartItem.slug}" target="_self">{cartItem.name}</a>
 						{#each cartItem.sossen as sosse}
@@ -116,8 +104,11 @@
 								<p class="text-sm">{pextra.pizzaextra.name}</p>
 							</div>
 						{/each}
-						<p class="font-bold">Spezielle Anweisungen:</p>
-						<p class="text-sm">{cartItem.speziell}</p>
+						{#if cartItem.speziell.length > 2}
+							<p class="font-bold">Spezielle Anweisungen:</p>
+							<p class="text-sm">{cartItem.speziell}</p>
+						{/if}
+
 						<div class="flex gap-3 my-2">
 							<QuantityInput bind:count={cartItem.quantity} mini={true} />
 							<button on:click={() => removeFromCart(cartItem)} class="font-light hover:underline">

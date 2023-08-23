@@ -2,7 +2,7 @@
 </script>
 
 <svelte:head>
-	<title>E-Handel Order</title>
+	<title>Gözde Kebab</title>
 </svelte:head>
 
 <div
@@ -11,7 +11,7 @@
 >
 	<p class="p-20 font-bold text-5xl text-center">Bestellung war erfolgreich!</p>
 	<p class="pb-20 text-xl text-center">
-		Vielen Dank für deinen Einkauf bei E-Handel! In kürze erhälst du eine E-Mail mit deiner
-		Bestellung.
+		Vielen Dank für deine Bestellung bei Gözde Kebab! In kürze erhälst du eine E-Mail mit deiner
+		Bestellung. Bitte bestätigen in dieser Email Ihre Bestellung.
 	</p>
 </div>
