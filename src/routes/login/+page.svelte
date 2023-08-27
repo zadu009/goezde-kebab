@@ -2,6 +2,38 @@
 	import { applyAction, enhance } from '$app/forms';
 	import { goto } from '$app/navigation';
 	import { pb } from '$lib/pocketbase';
+	import { warenkorbArtikelStore } from '$lib/stores';
+	import type { WarenkorbArtikel } from '$lib/stores';
+
+	let msgBody = 'Biite Bestätigen Sie Ihre Bestellung?';
+	let subject = 'Ihre Bestellung bei Gözde Kebab';
+	let email = '';
+	let telefonnummer = '';
+	let fullname = '';
+	let warenkorbArtikelValue: WarenkorbArtikel[];
+	let orders: WarenkorbArtikel[];
+
+	export async function getOrders() {
+		const unsubscribe = warenkorbArtikelStore.subscribe((value) => {
+			warenkorbArtikelValue = value;
+		});
+		const res = await fetch('http://192.168.178.26:8080/sendMail', {
+			method: 'POST',
+			body: JSON.stringify({
+				recipient: email,
+				msgBody,
+				subject,
+				orders: $warenkorbArtikelStore,
+				fullname: fullname,
+				telefonnummer: telefonnummer,
+				email: email
+			}),
+			headers: {
+				'Content-Type': 'application/json; charset=utf-8'
+			}
+		});
+		goto('/order');
+	}
 
 	function order() {
 		goto('/order');
@@ -24,6 +56,7 @@
 								<label for="name" class="block text-sm font-semibold leading-6">Name</label>
 								<div class="mt-2.5">
 									<input
+										bind:value={fullname}
 										type="text"
 										name="name"
 										required
@@ -35,6 +68,7 @@
 								<label for="email" class="block text-sm font-semibold leading-6">Email</label>
 								<div class="mt-2.5">
 									<input
+										bind:value={email}
 										type="email"
 										name="email"
 										required
@@ -46,6 +80,7 @@
 								<label for="nummer" class="block text-sm font-semibold leading-6">Mobil</label>
 								<div class="mt-2.5">
 									<input
+										bind:value={telefonnummer}
 										type="tel"
 										name="nummer"
 										required
@@ -56,7 +91,7 @@
 						</div>
 						<div class="grid justify-items-center">
 							<button
-								on:click={order}
+								on:click={getOrders}
 								class="bg-yellow-300 hover:bg-yellow-500 text-black font-bold py-2 px-4 rounded"
 								>Bestellung abschließen</button
 							>
