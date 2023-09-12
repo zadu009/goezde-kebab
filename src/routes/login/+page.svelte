@@ -17,7 +17,7 @@
 		const unsubscribe = warenkorbArtikelStore.subscribe((value) => {
 			warenkorbArtikelValue = value;
 		});
-		const res = await fetch('https://mailservice-production.up.railway.app/sendMail', {
+		const res = await fetch('https://mailservice-production.up.railway.app/sendFinalMail', {
 			method: 'POST',
 			body: JSON.stringify({
 				recipient: email,
