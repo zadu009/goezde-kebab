@@ -27,7 +27,7 @@
 	let warenkorbArtikelValue: WarenkorbArtikel[];
 	let checkoutPrice: number;
 	let doenersossen = [''];
-	let anweisung;
+	let anweisung = '';
 	let pizzaextras = [
 		{ name: 'Extra Salami', selected: false, price: 2.3 },
 		{ name: 'Extra Thunfisch', selected: false, price: 3.3 },
